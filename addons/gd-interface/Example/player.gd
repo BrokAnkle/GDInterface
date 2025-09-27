@@ -125,13 +125,14 @@ func try_interact() -> void:
 			pickup(interact_object)
 
 
-## Pick the given object up, if it's implement the interface [Pickable]
+## Pick the given object up, if it implements the interface [Pickable]
 func pickup(object: Object) -> void:
 	GDInterface.execute(interact_object, Pickable.get_interface_type(), [true])
 	object.reparent(pickup_location)
 	picked_up_object = object
 
 
+## Drop the picked_up_object
 func drop_object() -> void:
 	GDInterface.execute(picked_up_object, Pickable.get_interface_type(), [false])
 	picked_up_object.reparent(get_tree().root)
