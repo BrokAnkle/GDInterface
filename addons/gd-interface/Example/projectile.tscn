@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://dqinb2r7fq2n8"]
+
+[ext_resource type="Script" uid="uid://8riq4263ur4n" path="res://addons/gd-interface/Example/projectile.gd" id="1_2ot17"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_akgne"]
+size = Vector3(0.03, 0.1, 0.015)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_qxf0c"]
+points = PackedVector3Array(-0.015, -0.05, -0.0075, -0.015, -0.05, 0.0075000008, 9.313226e-10, 0.05, -0.0075, 0.0150000015, -0.05, -0.0075, 0.0150000015, -0.05, 0.0075000008, 9.313226e-10, 0.05, 0.0075000008)
+
+[node name="Projectile" type="RigidBody3D"]
+collision_layer = 8
+collision_mask = 3
+gravity_scale = 0.0
+script = ExtResource("1_2ot17")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -0.050679747)
+mesh = SubResource("PrismMesh_akgne")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -0.050679747)
+shape = SubResource("ConvexPolygonShape3D_qxf0c")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
