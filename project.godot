@@ -21,7 +21,17 @@ GDInterface="*res://addons/gd-interface/gdinterface.gd"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/gd-interface/plugin.cfg", "res://addons/myplugin/plugin.cfg")
+enabled=PackedStringArray("res://addons/gd-interface/plugin.cfg")
+
+[file_customization]
+
+folder_colors={
+"res://addons/": "gray",
+"res://addons/gd-interface/": "green",
+"res://addons/gd-interface/Dock/": "blue",
+"res://addons/gd-interface/Example/": "red",
+"res://addons/gd-interface/Example/Interfaces/": "yellow"
+}
 
 [input]
 
@@ -67,3 +77,7 @@ interact={
 3d_physics/layer_2="Dynamic"
 3d_physics/layer_3="Player"
 3d_physics/layer_4="Projectile"
+
+[plugins]
+
+gdinterface/interface_folder="res://addons/gd-interface/Example/Interfaces/"

@@ -11,6 +11,7 @@ func implements(object: Object, interface_type: InterfaceType) -> bool:
 			return true
 	return false
 
+
 ## Execute the given interface, if present in the given [param object] and pass to it [param args] as an Array of [Variant].[br]
 ## If you need to pass arguments, even only one, you MUST pass them in an array. If you don't need to pass argument you can leave it blank.
 ## (Reminder: if you don't give the right set of arguments in the right order, the interface will be ignored by the engine.)
@@ -40,7 +41,6 @@ func implements_barbaric(object: Object, interface_name: String) -> bool:
 
 ## Execute the given method, signal or metadata as [Callable] [param interface_name] if the [param object] has it. If not, just push a warning in the console.[br]
 ## This version doesn't take paramaters to pass to the "interface".[br]
-## (Reminder: if you don't give the right set of arguments in the right order, the interface will be ignored by the engine.)
 func execute_no_args(object: Object, interface_name: String) -> Variant:
 	if object.has_meta(interface_name):
 		if object.get_meta(interface_name) is Callable:

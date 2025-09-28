@@ -1,0 +1,89 @@
+[gd_scene load_steps=4 format=3 uid="uid://b5u56c00rwhmv"]
+
+[ext_resource type="Script" uid="uid://bevst5hgeh810" path="res://addons/gd-interface/Dock/gd_interface_dock.gd" id="1_ypu1i"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_30qj7"]
+bg_color = Color(0, 0.40455496, 5.7756904e-07, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_30qj7"]
+
+[node name="GDInterfaceDock" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ypu1i")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "GDInterface"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FolderHBox" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/FolderHBox"]
+layout_mode = 2
+text = "Interfaces class folder:"
+
+[node name="InterfaceFolderLineEdit" type="LineEdit" parent="VBoxContainer/FolderHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "res://"
+placeholder_text = "Enter the path of the folder where your interface classes will reside. This will be used to generate code verification"
+clear_button_enabled = true
+
+[node name="CheckButton" type="Button" parent="VBoxContainer/FolderHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 32)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_30qj7")
+disabled = true
+text = "check"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 8
+theme_override_styles/separator = SubResource("StyleBoxEmpty_30qj7")
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 1
+text = "Individual interface scripts:"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="IndividualPathVBox" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="AddButton" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "+ Add interface script"
+
+[connection signal="text_changed" from="VBoxContainer/FolderHBox/InterfaceFolderLineEdit" to="." method="_on_interface_folder_line_edit_text_changed"]
+[connection signal="text_submitted" from="VBoxContainer/FolderHBox/InterfaceFolderLineEdit" to="." method="_on_interface_folder_line_edit_text_submitted"]
+[connection signal="pressed" from="VBoxContainer/FolderHBox/CheckButton" to="." method="_on_check_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/AddButton" to="." method="_on_add_button_pressed"]

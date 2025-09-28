@@ -17,6 +17,7 @@ func _physics_process(delta: float) -> void:
 		if object:
 			var remaining_health: int = GDInterface.execute(object, Damageable.get_interface_type(), [damage])
 			print_rich(str("[color=yellow]Projectile knows that ", object.name, " has ", remaining_health, " health"))
+			
 		queue_free()
 
 func _on_timer_timeout() -> void:
