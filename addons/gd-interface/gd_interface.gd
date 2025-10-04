@@ -6,6 +6,13 @@ var validate_code: bool = true
 var interface_dock: Control
 
 var interface_folder_path: String = "res://interfaces"
+
+const INTERFACE_TEMPLATE: String = "res://addons/gd-interface/interface_template.gd"
+const SCRIPT_TEMPLATES_FOLDER: String = "res://script_templates/"
+const INTERFACE_TEMPLATE_DESTINATION: String = "res://script_templates/Interface/"
+const GDIGNORE_TEMPLATE: String = "res://script_templates/.gdignore"
+
+
 #var interface_scripts_paths: PackedStringArray
 ## Contains the type of [Interface] child class (class_name * extends Interface)
 var interface_types: Array[String]
@@ -22,6 +29,8 @@ func _disable_plugin() -> void:
 
 func _enter_tree() -> void:
 	resource_saved.connect(on_resource_saved)
+	
+	create_interface_template()
 	
 	interface_dock = preload("res://addons/gd-interface/Dock/gd_interface_dock.tscn").instantiate()
 	add_control_to_bottom_panel(interface_dock, "GDInterface")
@@ -51,7 +60,7 @@ func on_settings_changed() -> void:
 	#var script_paths_string: String = ProjectSettings.get_setting("plugins/gdinterface/interface_paths")
 	#interface_scripts_paths = script_paths_string.split(";")
 	
-	validate_code = ProjectSettings.get_setting("plugins/gdinterface/validate_code")
+	validate_code = ProjectSettings.get_setting("plugins/gdinterface/validate_code", true)
 
 
 func on_resource_saved(resource: Resource) -> void:
@@ -222,3 +231,32 @@ func _report_error(script_path: String, line_number: int, var_name: String, mess
 	push_error("ERROR Interface: %s:%d - %s" % [script_path, line_number, message])
 	# Show also in console
 	print_rich("[color=red]❌ [GDInterface] %s:%d - Variable '%s' - %s" % [script_path, line_number, var_name, message])
+
+
+func create_interface_template() -> void:
+	if FileAccess.file_exists(INTERFACE_TEMPLATE_DESTINATION + "interface_template.gd"):
+		print_rich("[color=green]Interface template already exists.")
+		return
+		
+	DirAccess.make_dir_recursive_absolute(INTERFACE_TEMPLATE_DESTINATION)
+	var dir = DirAccess.open(INTERFACE_TEMPLATE_DESTINATION)
+	if !dir:
+		push_error("GDInterface: Could not create interface template folder.")
+		return
+		
+	print_rich("[color=green]Interface template folder has been created.")
+	
+	var copy := dir.copy(INTERFACE_TEMPLATE, INTERFACE_TEMPLATE_DESTINATION + "interface_template.gd")
+	if copy != OK:
+		push_error("GDInterface: Could not copy interface template script into interface template folder.")
+		return
+		
+	print_rich("[color=green]Interface template script has been copyied into interface template folder.")
+	
+	var gdignore := FileAccess.open(GDIGNORE_TEMPLATE, FileAccess.WRITE)
+	if !gdignore:
+		push_error("GDInterface: Could not create .gdignore file in interface template folder. It will be displayed in the filesystem")
+		return
+		
+	print_rich("[color=green]Interface template ready. When creating a new interface script, select 'Interface' in the 'Inherits' field.")
+	#get_editor_interface().get_resource_filesystem().scan()
