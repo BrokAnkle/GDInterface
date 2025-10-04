@@ -116,7 +116,6 @@ func shoot() -> void:
 func try_interact() -> void:
 	if picked_up_object:
 		drop_object()
-		print("drop")
 		return
 	if can_interact:
 		if interact_type == Interactable.get_interface_type():

@@ -1,10 +1,11 @@
 @tool
 extends EditorPlugin
 
+var validate_code: bool = true
 
 var interface_dock: Control
 
-var interface_folder_path: String
+var interface_folder_path: String = "res://interfaces"
 #var interface_scripts_paths: PackedStringArray
 ## Contains the type of [Interface] child class (class_name * extends Interface)
 var interface_types: Array[String]
@@ -26,9 +27,13 @@ func _enter_tree() -> void:
 	add_control_to_bottom_panel(interface_dock, "GDInterface")
 	
 	get_editor_interface().get_script_editor().editor_script_changed.connect(_on_script_changed)
-
+	
+	interface_folder_path = ProjectSettings.get_setting("plugins/gdinterface/interface_folder", "res://interfaces")
+	validate_code = ProjectSettings.get_setting("plugins/gdinterface/validate_code", true)
+	
 	_check_all_scripts()
 	print_rich("[color=white]GDInterface plugin activated")
+	print_rich("[color=green]validate code = ", validate_code, "\ninterface folder = ", interface_folder_path)
 
 
 func _exit_tree() -> void:
@@ -45,15 +50,14 @@ func on_settings_changed() -> void:
 	#Update Individual Scripts Path
 	#var script_paths_string: String = ProjectSettings.get_setting("plugins/gdinterface/interface_paths")
 	#interface_scripts_paths = script_paths_string.split(";")
+	
+	validate_code = ProjectSettings.get_setting("plugins/gdinterface/validate_code")
 
 
 func on_resource_saved(resource: Resource) -> void:
-	print("resource saved")
 	if resource is Script:
-		print("resource is script")
 		# Get all interface types from interface folder
 		interface_types = get_interfaces_script_files(interface_folder_path)
-		print("interface types = ", interface_types)
 		# Get interface types from individual scripts
 		#if !interface_scripts_paths.is_empty():
 			#for path in interface_scripts_paths:
@@ -144,6 +148,8 @@ func _get_all_script_files(path: String) -> Array[String]:
 
 
 func _check_script(script: Script) -> void:
+	if !validate_code: return
+	
 	var script_path: String = script.resource_path
 	var source_code: String = script.source_code
 	# scan the script's source code for Interface variables
@@ -176,7 +182,6 @@ func _find_interface_variables(source_code: String) -> Array[Dictionary]:
 	
 		for type: String in interface_types:
 			if line.begins_with("var ") and str(": ", type) in line:
-				print_rich("[color=yellow]found an interface of type " + type)
 				var var_name = line.replace("var ", "").split(":")[0].strip_edges()
 				var assignment_part = line.split("=")
 				var has_assignemnt = assignment_part.size() > 1

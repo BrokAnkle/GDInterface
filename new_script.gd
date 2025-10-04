@@ -4,8 +4,6 @@ extends Node
 var consumable: Consumable
 @export_tool_button("button") var button = function
 
-func _ready() -> void:
-	print("hi")
 
 func function() -> void:
 	print("hello")

@@ -8,6 +8,8 @@ extends Control
 @onready var interface_folder_line_edit: LineEdit = %InterfaceFolderLineEdit
 @onready var check_button: Button = %CheckButton
 
+@onready var validate_code_check_box: CheckBox = %ValidateCodeCheckBox
+
 
 #var paths: PackedStringArray
 
@@ -19,6 +21,8 @@ func _ready() -> void:
 	if folder_path.is_empty():
 		folder_path = "res://interfaces"
 	interface_folder_line_edit.text = folder_path
+	
+	validate_code_check_box.set_pressed_no_signal(ProjectSettings.get_setting("plugins/gdinterface/validate_code", true))
 	
 	# Load the individual interface paths from Project Settings and instantiate item for each
 	#var interface_paths: String = ProjectSettings.get_setting("plugins/gdinterface/interface_paths", "")
@@ -107,3 +111,8 @@ func validate_folder_path() -> void:
 func _on_interface_folder_line_edit_text_submitted(new_text: String) -> void:
 	if !check_button.disabled:
 		validate_folder_path()
+
+
+func _on_validate_code_check_box_toggled(toggled_on: bool) -> void:
+	ProjectSettings.set_setting("plugins/gdinterface/validate_code", toggled_on)
+	
