@@ -41,7 +41,7 @@ func implements_barbaric(object: Object, interface_name: String) -> bool:
 
 ## Execute the given method, signal or metadata as [Callable] [param interface_name] if the [param object] has it. If not, just push a warning in the console.[br]
 ## This version doesn't take paramaters to pass to the "interface".[br]
-func execute_no_args(object: Object, interface_name: String) -> Variant:
+func execute_barbaric_no_args(object: Object, interface_name: String) -> Variant:
 	if object.has_meta(interface_name):
 		if object.get_meta(interface_name) is Callable:
 			return (object.get_meta(interface_name) as Callable).call()
@@ -60,7 +60,7 @@ func execute_no_args(object: Object, interface_name: String) -> Variant:
 ## Execute the given method, signal or metadata as [Callable] [param interface_name] if the [param object] has it. If not, just push a warning in the console.[br]
 ## This version take paramaters to pass to the "interface" as a variadic set of arguments.[br]
 ## (Reminder: if you don't give the right set of arguments in the right order, the interface will be ignored by the engine.)
-func execute_with_args(object: Object, interface_name: String, args: Array = []) -> Variant:
+func execute_barbaric_with_args(object: Object, interface_name: String, args: Array = []) -> Variant:
 	if object.has_meta(interface_name):
 		if object.get_meta(interface_name) is Callable:
 			return (object.get_meta(interface_name) as Callable).callv(args)

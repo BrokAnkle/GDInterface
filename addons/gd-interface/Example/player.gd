@@ -47,7 +47,7 @@ func _physics_process(delta: float) -> void:
 		var collision: KinematicCollision3D = get_slide_collision(0)
 		var jumpable = collision.get_collider().get_parent()
 		if GDInterface.implements_barbaric(jumpable, "jumpable"):
-			GDInterface.execute_with_args(jumpable, "jumpable", [self])
+			GDInterface.execute_barbaric_with_args(jumpable, "jumpable", [self])
 
 
 func _unhandled_input(event: InputEvent) -> void:

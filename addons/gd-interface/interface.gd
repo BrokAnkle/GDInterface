@@ -3,7 +3,7 @@ class_name Interface extends Resource
 
 ## Base clase for Interface variables. Each class that use a variable of type
 ## Interface (and its inherited subclass), must signed the contact by feeding,
-## the [member contract] variable. A variable of [class Callable] that take the
+## the [member contract] variable. A variable of [Callable] that take the
 ## implemented method and will be executed when needed.
 
 static var types: Dictionary = {} #{"Interface": InterfaceType.new("Interface")}
