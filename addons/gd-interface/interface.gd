@@ -1,4 +1,3 @@
-@abstract
 class_name Interface extends Resource
 
 ## Base clase for Interface variables. Each class that use a variable of type
@@ -16,10 +15,8 @@ func _init(implementation: Callable) -> void:
 
 ## Override of the built-in function [method get_class][br]
 ## With no override, it returns the closest engine built-in class[br]
-## Force @abstract to 1. Make [Interface] a virtual class and
-## 2. It forces the user to override with the right name
-@abstract func get_class() -> String
-	#return "Interface"
+func get_class() -> String:
+	return "Interface"
 
 
 func execute(args: Array = []) -> Variant:
